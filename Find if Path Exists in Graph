@@ -1,0 +1,24 @@
+class Solution {
+    void dfs(int node, List<List<Integer>> graph, boolean[] visited){
+        visited[node]=true;
+        for(int nbr: graph.get(node)){
+            if(!visited[nbr]){
+                dfs(nbr, graph, visited);
+            }
+        }
+    }
+    public boolean validPath(int n, int[][] edges, int source, int destination) {
+        boolean[] visited=new boolean[n];
+        List<List<Integer>> graph=new ArrayList<>();
+        for(int i=0; i<n; i++){
+            graph.add(new ArrayList<>());
+        }
+        for(int[] edge: edges){
+            int a=edge[0]; int b=edge[1];
+            graph.get(a).add(b);
+            graph.get(b).add(a);
+        }
+        dfs(source, graph, visited);
+        return visited[destination];
+    }
+}
