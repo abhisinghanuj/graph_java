@@ -1,0 +1,36 @@
+class Solution {
+    boolean dfs(int node, List<List<Integer>> adj, int[] visited, int parent){
+        visited[node]=1;
+        for(int nbr: adj.get(node)){
+            if(visited[nbr]==0){
+                boolean ans=dfs(nbr,adj,visited,node);
+                if(ans) return true;
+            }
+            else if(visited[nbr]==1 && nbr!=parent){
+                return true;
+            }
+        }
+        return false;
+    }
+    public boolean isCycle(int V, int[][] edges) {
+        // Code here
+        List<List<Integer>> adj=new ArrayList<>();
+        for(int i=0; i<V; i++){
+            adj.add(new ArrayList<>());
+        }
+        for(int[] edge: edges){
+            int u=edge[0];
+            int v=edge[1];
+            adj.get(u).add(v);
+            adj.get(v).add(u);
+        }
+        int[] visited=new int[V];
+        for(int i=0; i<V; i++){
+            if(visited[i]==0){
+                boolean ans=dfs(i,adj,visited,-1);
+                if(ans) return true;
+            }
+        }
+        return false;
+    }
+}
